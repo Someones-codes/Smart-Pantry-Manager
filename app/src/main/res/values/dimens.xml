@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="screen_padding">16dp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_large">22sp</dimen>
+    <string name="title_pantry">My Pantry</string>
+    <string name="label_delete_mode">Delete</string>
+    <string name="button_add">Add</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="expires_on">Expires: %1$s</string>
+    <string name="empty_pantry">Your pantry is empty. Tap Add to enter your first ingredient.</string>
+    <string name="confirm_delete_title">Delete ingredient?</string>
+    <string name="confirm_delete_message">Remove %1$s from your pantry?</string>
+    <string name="item_deleted">Ingredient deleted</string>
+    <string name="delete_failed">Could not delete the ingredient</string>
+    <string name="load_error">Could not load your pantry</string>
+</resources>
