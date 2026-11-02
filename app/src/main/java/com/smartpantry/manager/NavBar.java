@@ -27,6 +27,7 @@ public class NavBar {
         pantry.setOnClickListener(v -> go(activity, MainActivity.class));
         recipes.setOnClickListener(v -> go(activity, SuggestedRecipesActivity.class));
         // The Settings button is wired in the next step, when SettingsActivity exists.
+        settings.setOnClickListener(v -> go(activity, SettingsActivity.class));
     }
 
     /** Opens another screen from the nav bar. */

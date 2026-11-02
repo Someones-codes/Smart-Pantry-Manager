@@ -38,4 +38,8 @@
     <string name="label_method">Method</string>
     <string name="action_back">Back</string>
     <string name="recipe_not_found">Recipe not found</string>
+    <string name="title_settings">Settings</string>
+    <string name="label_expiry_alerts">Highlight ingredients expiring within 3 days</string>
+    <string name="settings_expiry_hint">When this is on, pantry items that expire within 3 days (or already have) are shown in red.</string>
+    <string name="expires_soon">Expires: %1$s (soon!)</string>
 </resources>
