@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         // Initialize screen functionality
         initDeleteSwitch();
         initAddButton();
+        NavBar.setup(this, R.id.navPantry);
 
         // Temporary test data
         addSampleDataIfEmpty();

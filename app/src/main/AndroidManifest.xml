@@ -12,10 +12,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartPantryManager"
         tools:targetApi="31">
+
+        <!-- Pantry list: the screen the app opens on -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".AddEditIngredientActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".SuggestedRecipesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".RecipeDetailActivity"
+            android:exported="false"
+            android:parentActivityName=".SuggestedRecipesActivity" />
+
     </application>
 
 </manifest>
