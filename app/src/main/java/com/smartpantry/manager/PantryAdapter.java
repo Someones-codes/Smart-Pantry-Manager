@@ -13,7 +13,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 /**
  * Connects the list of PantryItem objects to the RecyclerView.
  * It creates one row view per item, fills it with data, and handles
@@ -25,7 +28,8 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
     private final Context parentContext;              // needed for database access and dialogs
     private View.OnClickListener onItemClickListener; // set by the Activity (used later for editing)
     private Runnable onDataChanged;                   // tells the Activity to refresh its empty message
-    private boolean isDeleting = false;               // true while the Delete switch is on
+    private boolean isDeleting = false;
+    private final boolean expiryAlertsOn;   // read from SharedPreferences (Settings screen)// true while the Delete switch is on
 
     /** Constructor: receives the data and the Activity this list lives in. */
     public PantryAdapter(ArrayList<PantryItem> data, Context context) {
@@ -49,6 +53,9 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
             textQuantity = itemView.findViewById(R.id.textItemQuantity);
             textExpiry = itemView.findViewById(R.id.textItemExpiry);
             buttonDelete = itemView.findViewById(R.id.buttonDeleteItem);
+            this.expiryAlertsOn = context
+                    .getSharedPreferences(SettingsActivity.PREFS_NAME, Context.MODE_PRIVATE)
+                    .getBoolean(SettingsActivity.KEY_EXPIRY_ALERTS, true);
         }
     }
 
@@ -91,7 +98,12 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
             holder.textExpiry.setVisibility(View.GONE);
         } else {
             holder.textExpiry.setVisibility(View.VISIBLE);
-            holder.textExpiry.setText(parentContext.getString(R.string.expires_on, expiry));
+            boolean soon = expiryAlertsOn && isExpiringSoon(expiry);
+            holder.textExpiry.setText(parentContext.getString(
+                    soon ? R.string.expires_soon : R.string.expires_on, expiry));
+            // Always set the colour: RecyclerView reuses rows, so an old red must be reset
+            holder.textExpiry.setTextColor(parentContext.getColor(
+                    soon ? R.color.system_red : R.color.text_secondary));
         }
 
         // Tapping the row: tag the row with its ViewHolder so the Activity can find the position
@@ -149,6 +161,18 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
             }
         } catch (Exception e) {
             Toast.makeText(parentContext, R.string.delete_failed, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /** True if the yyyy-MM-dd date is within 3 days from now, or already in the past. */
+    private boolean isExpiringSoon(String expiry) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            Date date = format.parse(expiry);
+            long daysLeft = (date.getTime() - System.currentTimeMillis()) / (24L * 60 * 60 * 1000);
+            return daysLeft <= 3;
+        } catch (ParseException e) {
+            return false;   // unreadable date: do not flag it
         }
     }
 
