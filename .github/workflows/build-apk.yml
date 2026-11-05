@@ -22,3 +22,10 @@ jobs:
         with:
           name: smart-pantry-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload unit test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-report
+          path: app/build/reports/tests/testDebugUnitTest
